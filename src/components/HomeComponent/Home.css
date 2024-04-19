@@ -1,0 +1,40 @@
+ul{
+    list-style: none;
+}
+
+ul li a{
+    color: black;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+li{
+    margin: 25px 0px;
+}
+
+a:hover{
+    color: #FFAA00;
+}
+
+aside {
+    position: fixed;
+    margin: 150px 0px;
+}
+
+.home-main{
+    margin: 100px 0px 0px 15%
+}
+
+section{
+    border: 1px solid black;
+}
+
+.section-title{
+    width: 200px;
+}
+
+hr{
+    margin-top: -15px;
+    height: 2px;
+    background-color: black;
+}
