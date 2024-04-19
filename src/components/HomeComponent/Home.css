@@ -22,11 +22,8 @@ aside {
 }
 
 .home-main{
+    position: relative;
     margin: 100px 0px 0px 15%
-}
-
-section{
-    border: 1px solid black;
 }
 
 .section-title{
@@ -37,4 +34,46 @@ hr{
     margin-top: -15px;
     height: 2px;
     background-color: black;
+}
+
+.section-data{
+    display:flex;
+    margin-left: 50px;
+}
+
+.section-data img{
+    flex: 1,0,auto;
+    margin: 30px
+}
+
+.section-data img:hover{
+    cursor: pointer;
+}
+
+.data-container{
+    position: relative;
+}
+
+.type-tag{
+    position: absolute;
+    top:30px;
+    left:30px;
+    background-color: #FFFF00;
+    height: 40px;
+    width: 100px;
+    text-align: center;
+    font-weight: bold;
+    font-size: x-large;
+    line-height: 37px;
+}
+
+
+.add-button-container{
+    position: absolute;
+    top: -50px;
+    right: 200px;
+}
+
+.add-button-container a > *:nth-child(n){
+    margin: 5px;
 }
