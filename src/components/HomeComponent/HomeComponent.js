@@ -120,6 +120,10 @@ function HomeComponent() {
 
   const updateData = async (data) => {
     try {
+      console.log(`URL: ${URL}`)
+      console.log(`ID: ${data._id}`)
+      console.log(`Request: ${URL}/map/${data._id}`)
+
       const response = await axios.put(`${URL}/map/${data._id}`, {
         copyCount: parseInt(data.copyCount)
       });
