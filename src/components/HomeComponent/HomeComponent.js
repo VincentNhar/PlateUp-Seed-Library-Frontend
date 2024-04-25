@@ -1,8 +1,11 @@
 import React, { useState,useEffect } from 'react'
+import { FaAngleLeft, FaAngleRight, FaPlus, FaCopy } from "react-icons/fa6";
 import "./Home.css"
 import axios from 'axios';
 
 function HomeComponent() {
+
+  const [URL, setURL] = useState('https://cute-plum-sea-lion-wrap.cyclic.app')
 
   const [seedData, setSeedData] = useState([]);
   const [popularSeed, setPopularSeed] = useState([]);
@@ -11,35 +14,113 @@ function HomeComponent() {
   const [mediumSeed, setMediumSeed] = useState([]);
   const [basicSeed, setBasicSeed] = useState([]);
 
-  const copyToClipboard = (data) => {
-    navigator.clipboard.writeText(data.seed)
-    alert(`${data.seed} has been copied successfully`)
+  const [popularStartIndex, setPopularStartIndex] = useState(0);
+  const [hugeStartIndex, setHugeStartIndex] = useState(0);
+  const [largeStartIndex, setLargeStartIndex] = useState(0);
+  const [mediumStartIndex, setMediumStartIndex] = useState(0);
+  const [basicStartIndex, setBasicStartIndex] = useState(0);
 
-    // Increment the copyCount
-    const updatedSeedData = seedData.map(seed => {
-      if (seed.seed === data.seed) {
-        return {
-          ...seed,
-          copyCount: seed.copyCount + 1
-        };
-        
-      }
-      return seed;
-    });
+  const itemsPerPage = 4;
 
-    setSeedData(updatedSeedData);
-
-    updatedSeedData.map(seed => {
-      if(seed.seed = data.seed){
-        updateData(seed)
-      }
-    })
-    window.location.reload();
+  const handleRightArrow = (section) => {
+    console.log("right arrow clicked");
+    switch (section) {
+      case "popular":
+        console.log(`${popularStartIndex + itemsPerPage} < ${popularSeed.length}`)
+        if (popularStartIndex + itemsPerPage < popularSeed.length){
+          console.log("popularStartIndex: ",popularStartIndex)
+          console.log("itemsPerPage + index: ",itemsPerPage + popularStartIndex)
+          setPopularStartIndex(popularStartIndex + 1)
+        }
+        break;
+      case "huge":
+        if (hugeStartIndex + itemsPerPage < hugeSeed.length){
+          setHugeStartIndex(hugeStartIndex + 1)
+        }
+        break;
+      case "large":
+        if (largeStartIndex + itemsPerPage < largeSeed.length){
+          setLargeStartIndex(largeStartIndex + 1)
+        }
+        break;
+      case "medium":
+        if (mediumStartIndex + itemsPerPage < mediumSeed.length){
+          setMediumStartIndex(mediumStartIndex + 1)
+        }
+        break;
+      case "basic":
+        if (basicStartIndex + itemsPerPage < basicSeed.length){
+          setBasicStartIndex(basicStartIndex + 1)
+        }
+        break;
+      default:
+        console.error("No section found")
+    }
   }
+
+  const handleLeftArrow = (section) => {
+    console.log("left arrow clicked");
+    let startIndexSetter;
+    switch (section) {
+      case "popular":
+        if (popularStartIndex > 0) {
+          setPopularStartIndex(popularStartIndex - 1);
+        }
+        break;
+      case "huge":
+        if (hugeStartIndex > 0) {
+          setHugeStartIndex(hugeStartIndex - 1);
+        }
+        break;
+      case "large":
+        if (largeStartIndex > 0) {
+          setLargeStartIndex(largeStartIndex - 1);
+        }
+        break;
+      case "medium":
+        if (mediumStartIndex > 0) {
+          setMediumStartIndex(mediumStartIndex - 1);
+        }
+        break;
+      case "basic":
+        if (basicStartIndex > 0) {
+          setBasicStartIndex(basicStartIndex - 1);
+        }
+        break;
+      default:
+        console.error("No section found")
+    }
+  };
+  
+  const copyToClipboard = (data) => {
+    console.log("Copy Data:", data.seed);
+    navigator.clipboard.writeText(data.seed);
+    alert(`${data.seed} has been copied successfully`);
+  
+    // Increment the copyCount and update seed data if seed matches
+    setSeedData(prevSeedData => {
+      const updatedSeedData = prevSeedData.map(seed => {
+        if (seed.seed === data.seed) {
+          // Increment copyCount
+          const updatedSeed = {
+            ...seed,
+            copyCount: seed.copyCount + 1
+          };
+          // Call updateData for the matching seed
+          updateData(updatedSeed);
+          return updatedSeed;
+        }
+        return seed; // Return unchanged seed if it doesn't match
+      });
+      return updatedSeedData;
+    });
+    window.location.reload()
+  };
+  
 
   const updateData = async (data) => {
     try {
-      const response = await axios.put(`http://localhost:3001/map/${data._id}`, {
+      const response = await axios.put(`${URL}/map/${data._id}`, {
         copyCount: parseInt(data.copyCount)
       });
       return response.data;
@@ -52,7 +133,7 @@ function HomeComponent() {
   const fetchData = async () =>{
     try{
       console.log('Fetching a list of seed data');
-      const response = await axios.get('http://localhost:3001/map/map-list')
+      const response = await axios.get(`${URL}/map/map-list`)
       const seedDataList = response.data
 
       //Sorted by number of copyCount
@@ -86,7 +167,6 @@ function HomeComponent() {
     fetchData()
   }, []);
 
-
   return (
     <>
     <header>
@@ -114,144 +194,169 @@ function HomeComponent() {
       </ul>
     </aside>
     <main className='home-main'>
-
       <div className='add-button-container'>
         <a href="/add">
-          <img src="" alt="+"></img>
+          <span><FaPlus /></span>
           <span>Add Map</span>
         </a>
       </div>
-
       <section id="popular-seed">
         <div className='section-title'>
           <h2>Popular Seed</h2>
           <hr></hr>
         </div>
         <div className='section-content'>
-        {/* Needs to be implemented by using react library icons */}
-          <div className='left-arrow'></div>
-
+          
+          <div className='left-arrow' onClick={() => handleLeftArrow("popular")}><FaAngleLeft /></div>
           
           <div className='section-data'>
-            {Object.keys(popularSeed).map(key => (
+            {Object.keys(popularSeed)
+              .slice(popularStartIndex, popularStartIndex + itemsPerPage)
+              .map(key => (
               <>
                 <div key={key} className='data-container'>
                   <div className='type-tag'>{popularSeed[key].type}</div>
                   <img src={popularSeed[key].imageBase64} onClick={() => copyToClipboard(popularSeed[key])} 
-                        style={{height: 400, width: 350}} alt={popularSeed[key].seed}></img>
+                        style={{height: 380, width: 300}} alt={popularSeed[key].seed}></img>
+                  <div className='stats-container'>
+                    <span><FaCopy /></span>
+                    <span>{popularSeed[key].copyCount}</span>
+                  </div>
                 </div>
               </>
             ))}
           </div>
           
-
-        {/* Needs to be implemented by using react library icons */}
-          <div className='arrow-right'></div>
+          <div className='right-arrow' onClick={() => handleRightArrow("popular")}><FaAngleRight /></div>
+        
         </div>
       </section>
-
+      
+      {/* HUGE SEED */}
       <section id="huge-seed">
         <div  className='section-title'>
           <h2>Huge Seed</h2>
           <hr></hr>
         </div>
         <div className='section-content'>
-        {/* Needs to be implemented by using react library icons */}
-          <div className='left-arrow'></div>
 
-          
+          <div className='left-arrow' onClick={() => handleLeftArrow("huge")}><FaAngleLeft /></div>
+
           <div className='section-data'>
-            {Object.keys(hugeSeed).map(key => (
+            {Object.keys(hugeSeed)
+              .slice(hugeStartIndex, hugeStartIndex + itemsPerPage)
+              .map(key => (
               <>
                 <div key={key} className='data-container'>
                   <img src={hugeSeed[key].imageBase64} onClick={() => copyToClipboard(hugeSeed[key])} 
-                        style={{height: 400, width: 350}} alt={hugeSeed[key].seed}></img>
+                        style={{height: 380, width: 300}} alt={hugeSeed[key].seed}></img>
+                  <div className='stats-container'>
+                    <span><FaCopy /></span>
+                    <span>{hugeSeed[key].copyCount}</span>
+                  </div>
                 </div>
               </>
             ))}
           </div>
-          
-        {/* Needs to be implemented by using react library icons */}
-          <div className='arrow-right'></div>
+
+          <div className='right-arrow' onClick={() => handleRightArrow("huge")}><FaAngleRight /></div>
+
         </div>
       </section>
 
-
+      {/* LARGE SEED */}
       <section id="large-seed">
         <div  className='section-title'>
           <h2>Large Seed</h2>
           <hr></hr>
         </div>
         <div className='section-content'>
-        {/* Needs to be implemented by using react library icons */}
-          <div className='left-arrow'></div>
 
-          
+          <div className='left-arrow' onClick={() => handleLeftArrow("large")}><FaAngleLeft /></div>
+
           <div className='section-data'>
-            {Object.keys(largeSeed).map(key => (
+            {Object.keys(largeSeed)
+              .slice(largeStartIndex, largeStartIndex + itemsPerPage)
+              .map(key => (
               <>
                 <div key={key} className='data-container'>
                   <img src={largeSeed[key].imageBase64} onClick={() => copyToClipboard(largeSeed[key])} 
-                        style={{height: 400, width: 350}} alt={largeSeed[key].seed}></img>
+                        style={{height: 380, width: 300}} alt={largeSeed[key].seed}></img>
+                  <div className='stats-container'>
+                    <span><FaCopy /></span>
+                    <span>{largeSeed[key].copyCount}</span>
+                  </div>
                 </div>
               </>
             ))}
           </div>
-          
-        {/* Needs to be implemented by using react library icons */}
-          <div className='arrow-right'></div>
+
+          <div className='right-arrow' onClick={() => handleRightArrow("large")}><FaAngleRight /></div>
+
         </div>
       </section>
-
+      
+      {/* MEDIUM SEED */}
       <section id="medium-seed">
         <div  className='section-title'>
           <h2>Medium Seed</h2>
           <hr></hr>
         </div>
         <div className='section-content'>
-        {/* Needs to be implemented by using react library icons */}
-          <div className='left-arrow'></div>
 
-          
+          <div className='left-arrow' onClick={() => handleLeftArrow("medium")}><FaAngleLeft /></div>
+
           <div className='section-data'>
-            {Object.keys(mediumSeed).map(key => (
+            {Object.keys(mediumSeed)
+              .slice(mediumStartIndex, mediumStartIndex+itemsPerPage)
+              .map(key => (
               <>
                 <div key={key} className='data-container'>
                   <img src={mediumSeed[key].imageBase64} onClick={() => copyToClipboard(mediumSeed[key])} 
-                        style={{height: 400, width: 350}} alt={mediumSeed[key].seed}></img>
+                        style={{height: 380, width: 300}} alt={mediumSeed[key].seed}></img>
+                  <div className='stats-container'>
+                    <span><FaCopy /></span>
+                    <span>{mediumSeed[key].copyCount}</span>
+                  </div>
                 </div>
               </>
             ))}
           </div>
-          
-        {/* Needs to be implemented by using react library icons */}
-          <div className='arrow-right'></div>
+
+          <div className='right-arrow' onClick={() => handleRightArrow("medium")}><FaAngleRight /></div>
+
         </div>
       </section>
-
+      
+      {/* BASIC SEED */}
       <section id="basic-seed">
         <div  className='section-title'>
           <h2>Basic Seed</h2>
           <hr></hr>
         </div>
         <div className='section-content'>
-        {/* Needs to be implemented by using react library icons */}
-          <div className='left-arrow'></div>
 
-          
+          <div className='left-arrow' onClick={() => handleLeftArrow("basic")}><FaAngleLeft /></div>
+
           <div className='section-data'>
-            {Object.keys(basicSeed).map(key => (
+            {Object.keys(basicSeed)
+              .slice(basicStartIndex, basicStartIndex + itemsPerPage)
+              .map(key => (
               <>
                 <div key={key} className='data-container'>
                   <img src={basicSeed[key].imageBase64} onClick={() => copyToClipboard(basicSeed[key])} 
-                        style={{height: 400, width: 350}} alt={basicSeed[key].seed}></img>
+                        style={{height: 380, width: 300}} alt={basicSeed[key].seed}></img>
+                  <div className='stats-container'>
+                    <span><FaCopy /></span>
+                    <span>{basicSeed[key].copyCount}</span>
+                  </div>
                 </div>
               </>
             ))}
           </div>
-          
-        {/* Needs to be implemented by using react library icons */}
-          <div className='arrow-right'></div>
+
+          <div className='right-arrow' onClick={() => handleRightArrow("basic")}><FaAngleRight /></div>
+
         </div>
       </section>
     </main>

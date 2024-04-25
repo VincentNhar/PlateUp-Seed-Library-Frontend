@@ -36,9 +36,17 @@ hr{
     background-color: black;
 }
 
-.section-data{
-    display:flex;
-    margin-left: 50px;
+.section-content,
+.section-data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-arrow,
+.right-arrow {
+    font-size: 75px;
+    cursor:pointer
 }
 
 .section-data img{
@@ -74,6 +82,45 @@ hr{
     right: 200px;
 }
 
-.add-button-container a > *:nth-child(n){
+.add-button-container a > *:nth-child(n) {
     margin: 5px;
 }
+
+/* add button logo */
+.add-button-container a > :nth-child(1) {
+    font-size: 50px;
+    color:#FFAA00
+}
+
+/* add button word */
+.add-button-container a > :nth-child(2) {
+    margin-top: -38px;
+    display: inline-block; /* Ensure the height is respected */
+    vertical-align: middle; /* Align the text vertically */
+    font-size: 25px;
+    font-weight: 700;
+    color:#FFAA00
+}
+
+.stats-container{
+    position: absolute;
+    bottom: -20px;
+    left: 175px;
+}
+
+.stats-container span{
+    margin: 5px;
+}
+
+.stats-container :nth-child(1) {
+    font-size: 25px;
+}
+
+.stats-container :nth-child(2) {
+    margin-bottom: 19px;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 25px;
+}
+
+

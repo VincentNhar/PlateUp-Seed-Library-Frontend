@@ -4,6 +4,8 @@ import axios from 'axios';
 
 function AddMapComponent() {
 
+  const [URL, setURL] = useState('https://cute-plum-sea-lion-wrap.cyclic.app')
+
   const [selectedValue, setSelectedValue] = useState("");
   const [previewImage, setPreviewImage] = useState(null);
   const [selectedFileName, setSelectedFileName] = useState("No image selected");
@@ -32,7 +34,7 @@ function AddMapComponent() {
     try {
 
         console.log("before submit: ",formData);
-        await axios.post('http://localhost:3001/map/add', formData);
+        await axios.post(`${URL}/map/add`, formData);
 
         
         // Reset form data after successful submission

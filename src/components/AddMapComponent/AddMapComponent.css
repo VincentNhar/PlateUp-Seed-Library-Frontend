@@ -87,7 +87,7 @@ select {
 /* Hide the default dropdown arrow */
 .custom-select {
     appearance: none;
-    background-image: url('../../../public/res/icons/dropdown-button.png');
+    background-image: url('../../../public/down-arrow.png');
     background-size: 20px;
     background-repeat: no-repeat;
     background-position: calc(100% - 20px);
