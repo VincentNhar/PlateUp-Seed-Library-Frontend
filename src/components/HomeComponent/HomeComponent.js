@@ -114,19 +114,22 @@ function HomeComponent() {
       });
       return updatedSeedData;
     });
-    //window.location.reload()
   };
   
 
   const updateData = async (data) => {
     try {
-      console.log(`URL: ${URL}`)
-      console.log(`ID: ${data._id}`)
-      console.log(`Request: ${URL}/map/${data._id}`)
 
       const response = await axios.put(`https://cute-plum-sea-lion-wrap.cyclic.app/map/${data._id}`, {
         copyCount: parseInt(data.copyCount)
       });
+
+      console.log(response.status)
+
+      if (response.status === 200){
+        window.location.reload()
+      }
+
       return response.data;
     } catch (error) {
       console.error("Error updating data:", error);
