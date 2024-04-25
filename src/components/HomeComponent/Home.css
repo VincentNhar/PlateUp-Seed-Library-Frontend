@@ -22,11 +22,8 @@ aside {
 }
 
 .home-main{
+    position: relative;
     margin: 100px 0px 0px 15%
-}
-
-section{
-    border: 1px solid black;
 }
 
 .section-title{
@@ -38,3 +35,92 @@ hr{
     height: 2px;
     background-color: black;
 }
+
+.section-content,
+.section-data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-arrow,
+.right-arrow {
+    font-size: 75px;
+    cursor:pointer
+}
+
+.section-data img{
+    flex: 1,0,auto;
+    margin: 30px
+}
+
+.section-data img:hover{
+    cursor: pointer;
+}
+
+.data-container{
+    position: relative;
+}
+
+.type-tag{
+    position: absolute;
+    top:30px;
+    left:30px;
+    background-color: #FFFF00;
+    height: 40px;
+    width: 100px;
+    text-align: center;
+    font-weight: bold;
+    font-size: x-large;
+    line-height: 37px;
+}
+
+
+.add-button-container{
+    position: absolute;
+    top: -50px;
+    right: 200px;
+}
+
+.add-button-container a > *:nth-child(n) {
+    margin: 5px;
+}
+
+/* add button logo */
+.add-button-container a > :nth-child(1) {
+    font-size: 50px;
+    color:#FFAA00
+}
+
+/* add button word */
+.add-button-container a > :nth-child(2) {
+    margin-top: -38px;
+    display: inline-block; /* Ensure the height is respected */
+    vertical-align: middle; /* Align the text vertically */
+    font-size: 25px;
+    font-weight: 700;
+    color:#FFAA00
+}
+
+.stats-container{
+    position: absolute;
+    bottom: -20px;
+    left: 175px;
+}
+
+.stats-container span{
+    margin: 5px;
+}
+
+.stats-container :nth-child(1) {
+    font-size: 25px;
+}
+
+.stats-container :nth-child(2) {
+    margin-bottom: 19px;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 25px;
+}
+
+

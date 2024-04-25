@@ -4,6 +4,8 @@ import axios from 'axios';
 
 function AddMapComponent() {
 
+  const [URL, setURL] = useState('https://cute-plum-sea-lion-wrap.cyclic.app')
+
   const [selectedValue, setSelectedValue] = useState("");
   const [previewImage, setPreviewImage] = useState(null);
   const [selectedFileName, setSelectedFileName] = useState("No image selected");
@@ -14,69 +16,74 @@ function AddMapComponent() {
       type:''
   })
 
-    const handleChange = (event) => {
-        setSelectedValue(event.target.value);
+  const handleChange = (event) => {
+      setSelectedValue(event.target.value);
 
-        console.log(event.target)
+      console.log(event.target)
 
-        const { name, value } = event.target;
+      const { name, value } = event.target;
 
+      setFormData({
+        ...formData,
+        [name]: value
+    });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+
+        console.log("before submit: ",formData);
+        await axios.post(`${URL}/map/add`, formData);
+
+        
+        // Reset form data after successful submission
         setFormData({
-          ...formData,
-          [name]: value
+          imageBase64: '',
+          seed: '',
+          type: ''
       });
-    };
+      
+      window.location.reload()
 
-    const handleSubmit = async (event) => {
-      try {
-          console.log("before submit: ",formData);
-          await axios.post('http://localhost:3001/map/add', formData);
+        
+      setPreviewImage(null);
+      setSelectedFileName('No image selected');
 
-          // Reset form data after successful submission
-          setFormData({
-            imageBase64: '',
-            seed: '',
-            type: ''
-        });
-
-         
-        setPreviewImage(null);
-        setSelectedFileName('No image selected');
-
-      } catch (error) {
-          console.error('Error submitting form:', error);
-      }
+    } catch (error) {
+        console.error('Error submitting form:', error);
+    }
   };
   
 
-    const handleImgUpload = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            setPreviewImage(reader.result);
+  const handleImgUpload = (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setPreviewImage(reader.result);
 
-            setFormData({
-              ...formData,
-              imageBase64: reader.result
-            })
-            
-          };
-          reader.readAsDataURL(file);
-          setSelectedFileName(file.name);
-        }
-    };
-
-    function truncateMiddle(text, maxLength = 20) {
-      if (text.length <= maxLength) {
-        return text;
+          setFormData({
+            ...formData,
+            imageBase64: reader.result
+          })
+          
+        };
+        reader.readAsDataURL(file);
+        setSelectedFileName(file.name);
       }
-    
-      const startLength = Math.floor((maxLength - 3) / 2);
-      const endLength = Math.ceil((maxLength - 3) / 2);
-    
-      return text.substr(0, startLength) + '...' + text.substr(text.length - endLength);
+  };
+
+  function truncateMiddle(text, maxLength = 20) {
+    if (text.length <= maxLength) {
+      return text;
     }
+  
+    const startLength = Math.floor((maxLength - 3) / 2);
+    const endLength = Math.ceil((maxLength - 3) / 2);
+  
+    return text.substr(0, startLength) + '...' + text.substr(text.length - endLength);
+  }
 
   return (
     <>
