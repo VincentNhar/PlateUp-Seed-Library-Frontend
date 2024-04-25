@@ -124,7 +124,7 @@ function HomeComponent() {
       console.log(`ID: ${data._id}`)
       console.log(`Request: ${URL}/map/${data._id}`)
 
-      const response = await axios.put(`${URL}/map/${data._id}`, {
+      const response = await axios.put(`https://cute-plum-sea-lion-wrap.cyclic.app/map/${data._id}`, {
         copyCount: parseInt(data.copyCount)
       });
       return response.data;
