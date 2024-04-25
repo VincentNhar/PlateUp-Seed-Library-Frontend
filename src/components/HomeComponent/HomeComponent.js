@@ -114,7 +114,7 @@ function HomeComponent() {
       });
       return updatedSeedData;
     });
-    window.location.reload()
+    //window.location.reload()
   };
   
 
