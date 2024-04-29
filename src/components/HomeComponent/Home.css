@@ -137,3 +137,11 @@ hr{
     vertical-align: middle;
     font-size: 25px;
 }
+
+.loading-spinner {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 19%;
+    line-height: 600px;
+}
