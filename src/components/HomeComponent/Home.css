@@ -12,7 +12,10 @@ nav a h1 {
 }
 
 nav a h1 :first-child {
-    background-image: linear-gradient(180deg, rgba(67,126,197,1) 50%, rgba(49,108,173,1) 50%);
+    background-image: linear-gradient(
+                    180deg, 
+                    #437ec5 50%, 
+                    #316cad 50%);
     background-clip: text;
     -webkit-text-fill-color: transparent;
     -webkit-text-stroke-width: 1px;
@@ -27,7 +30,6 @@ nav a h1 :last-child{
     left: 100%;
     margin-left: 15px;
     color: black;
-    /* transform: rotate(.92turn); */
 }
 
 ul{
@@ -99,29 +101,28 @@ hr{
 }
 
 .type-tag{
-    position: absolute;
-    top:30px;
     left:30px;
     height: 40px;
-    width: 100px;
-    font-weight: bold;
     line-height: 37px;
-    text-align: center;
-    background-color: #FFFF00;
     font-size: x-large;
-}
-.time-tag{
-    position: absolute;
-    background-color: #FFFF00;
-    top:30px;
-    left:30px;
-    height: 40px;
-    line-height: 37px;
-    font-size: 10;
-    font-weight: bold;
     padding: 0px 5% 0px;
 }
 
+.time-tag{
+    right:30px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 15px;
+    padding: 0px 2% 0px;
+}
+
+.type-tag,
+.time-tag{
+    top:30px;
+    position: absolute;
+    background-color: #FFFF00;
+    font-weight: bold;
+}
 
 .add-button-container{
     position: absolute;
