@@ -287,7 +287,7 @@ function HomeComponent() {
                 <>
                   <div key={key} className='data-container'>
                     <div className='time-tag'>{durationText(newSeed[key].createdAt)}</div>
-                    <div className='type-tag'>{popularSeed[key].type}</div>
+                    <div className='type-tag'>{newSeed[key].type}</div>
                     <img src={newSeed[key].imageBase64} onClick={() => copyToClipboard(newSeed[key])} 
                           style={{height: 380, width: 300}} alt={newSeed[key].seed}></img>
                     <div className='stats-container'>
