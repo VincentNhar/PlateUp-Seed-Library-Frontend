@@ -84,7 +84,8 @@ hr{
 .left-arrow,
 .right-arrow {
     font-size: 75px;
-    cursor:pointer
+    cursor:pointer;
+    user-select: none;
 }
 
 .section-data img{
