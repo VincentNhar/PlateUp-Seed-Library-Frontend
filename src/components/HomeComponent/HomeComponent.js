@@ -185,11 +185,7 @@ function HomeComponent() {
 
   const fetchData = async () =>{
     try{
-      console.log('Fetching a list of seed data');
-      const start = new Date()
       const response = await axios.get(`${URL}/map/map-list`)
-      const end = new Date()
-      console.log(`Fetched complete! It took ${end - start} ms`)
       const seedDataList = response.data
 
       //Sorted by date of creation
@@ -238,6 +234,9 @@ function HomeComponent() {
     </header>
     <aside>
       <ul>
+        <li>
+          <a href="#new-seed">New Map</a>
+        </li>
         <li>
           <a href="#popular-seed">Popular Map</a>
         </li>
