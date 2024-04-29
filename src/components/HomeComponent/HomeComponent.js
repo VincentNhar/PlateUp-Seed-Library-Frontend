@@ -150,7 +150,7 @@ function HomeComponent() {
       if(dataObj.hasOwnProperty(key)){
         //converts type of date from String to Date Object
         let date = Date.parse(dataObj[key].createdAt);
-        dataObj[key]['createdAt'] = date;
+        dataObj[key]['createdAt'] = date; 
       }
     }
     return dataObj;
@@ -229,7 +229,12 @@ function HomeComponent() {
     <>
     <header>
         <nav>
-            <a href="/"><h1>Vincent's PlateUp Seed Library</h1></a>
+            <a href="/">
+              <h1>
+                <span>PlateUp Seed Library </span> 
+                <span>created by Vincent Nhar</span>
+              </h1>
+            </a>
         </nav>
     </header>
     <aside>

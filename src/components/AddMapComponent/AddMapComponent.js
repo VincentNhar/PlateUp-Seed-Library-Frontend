@@ -114,7 +114,7 @@ function AddMapComponent() {
                   <select name='type' onChange={handleChange}
                           className={`custom-select ${selectedValue ? '' : 'placeholder-text'}`}
                           defaultValue="">
-                    <option value="" disabled>Select Type</option>
+                    <option value="" disabled>Select Type (w x h)</option>
                     <option value="Huge">Huge (16 x 12)</option>
                     <option value="Large">Large (13 x 9)</option>
                     <option value="Medium">Medium (14 x 6)</option>
