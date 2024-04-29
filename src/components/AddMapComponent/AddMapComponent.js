@@ -4,7 +4,7 @@ import axios from 'axios';
 
 function AddMapComponent() {
 
-  const [URL, setURL] = useState('https://cute-plum-sea-lion-wrap.cyclic.app')
+  const [URL, setURL] = useState('http://localhost:5000')
 
   const [selectedValue, setSelectedValue] = useState("");
   const [previewImage, setPreviewImage] = useState(null);
@@ -55,7 +55,6 @@ function AddMapComponent() {
     }
   };
   
-
   const handleImgUpload = (event) => {
       const file = event.target.files[0];
       if (file) {
@@ -135,9 +134,7 @@ function AddMapComponent() {
                   {previewImage ? <img src={previewImage} alt="Preview" /> : <img></img>}
                 </div>
                 <div className='upload-input'>
-                <label htmlFor="upload-image" className="custom-file-upload">
-                  Upload Image
-                </label>
+                  <label htmlFor="upload-image" className="custom-file-upload">Upload Image </label>
                   <label className='file-name'>{truncateMiddle(selectedFileName)}</label>
                   <input type='file' id='upload-image' accept='image/*' onChange={handleImgUpload}></input>
                 </div>

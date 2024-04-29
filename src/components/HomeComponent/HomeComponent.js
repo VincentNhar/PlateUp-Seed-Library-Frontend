@@ -5,15 +5,17 @@ import axios from 'axios';
 
 function HomeComponent() {
 
-  const [URL, setURL] = useState('https://cute-plum-sea-lion-wrap.cyclic.app')
+  const [URL, setURL] = useState('http://localhost:5000')
 
   const [seedData, setSeedData] = useState([]);
+  const [newSeed, setNewSeed] = useState([]);
   const [popularSeed, setPopularSeed] = useState([]);
   const [hugeSeed, setHugeSeed] = useState([]);
   const [largeSeed, setLargeSeed] = useState([]);
   const [mediumSeed, setMediumSeed] = useState([]);
   const [basicSeed, setBasicSeed] = useState([]);
 
+  const [newSeedStartIndex, setNewSeedStartIndex] = useState(0);
   const [popularStartIndex, setPopularStartIndex] = useState(0);
   const [hugeStartIndex, setHugeStartIndex] = useState(0);
   const [largeStartIndex, setLargeStartIndex] = useState(0);
@@ -23,13 +25,14 @@ function HomeComponent() {
   const itemsPerPage = 4;
 
   const handleRightArrow = (section) => {
-    console.log("right arrow clicked");
     switch (section) {
+      case "new":
+        if (newSeedStartIndex + itemsPerPage < newSeed.length){
+          setNewSeedStartIndex(newSeedStartIndex + 1)
+        }
+        break;
       case "popular":
-        console.log(`${popularStartIndex + itemsPerPage} < ${popularSeed.length}`)
         if (popularStartIndex + itemsPerPage < popularSeed.length){
-          console.log("popularStartIndex: ",popularStartIndex)
-          console.log("itemsPerPage + index: ",itemsPerPage + popularStartIndex)
           setPopularStartIndex(popularStartIndex + 1)
         }
         break;
@@ -59,9 +62,12 @@ function HomeComponent() {
   }
 
   const handleLeftArrow = (section) => {
-    console.log("left arrow clicked");
-    let startIndexSetter;
     switch (section) {
+      case "new":
+        if (newSeedStartIndex > 0){
+          setNewSeedStartIndex(newSeedStartIndex - 1)
+        }
+        break;
       case "popular":
         if (popularStartIndex > 0) {
           setPopularStartIndex(popularStartIndex - 1);
@@ -116,11 +122,10 @@ function HomeComponent() {
     });
   };
   
-
   const updateData = async (data) => {
     try {
 
-      const response = await axios.put(`https://cute-plum-sea-lion-wrap.cyclic.app/map/${data._id}`, {
+      const response = await axios.put(`${URL}/map/${data._id}`, {
         copyCount: parseInt(data.copyCount)
       });
 
@@ -137,14 +142,57 @@ function HomeComponent() {
     }
   }
 
+  const convertDate = (dataObj) => {
+    // Loops through objects
+    for (const key in dataObj){
+      if(dataObj.hasOwnProperty(key)){
+        //converts type of date from String to Date Object
+        let date = Date.parse(dataObj[key].createdAt);
+        dataObj[key]['createdAt'] = date;
+      }
+    }
+    return dataObj;
+  }
+
+  const durationText = (date) => {
+    const dateObj = new Date(date);
+    const today = new Date();
+    const duration = today - dateObj
+    
+    const seconds = Math.floor(duration / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const weeks = Math.floor(days / 7);
+    const months = Math.floor(weeks / 4.345)
+
+    if (months > 0) {
+      return `Added ${weeks} month${months > 1 ? 's' : ''} ago`;
+    } else if (weeks > 0) {
+      return `Added ${weeks} week${weeks > 1 ? 's' : ''} ago`;
+    } else if (days > 0) {
+      return `Added ${days} day${days > 1 ? 's' : ''} ago`;
+    } else if (hours > 0) {
+        return `Added ${hours} hour${hours > 1 ? 's' : ''} ago`;
+    } else if (minutes > 0) {
+        return `Added ${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+    } else {
+        return `Added ${seconds} second${seconds !== 1 ? 's' : ''} ago`;
+    }
+  }
+
   const fetchData = async () =>{
     try{
       console.log('Fetching a list of seed data');
       const response = await axios.get(`${URL}/map/map-list`)
       const seedDataList = response.data
 
+      //Sorted by date of creation
+      const newSeedList = convertDate(seedDataList)
+      const sortedNewSeedList = [...newSeedList].sort((a,b) => a.createdAt + b.createdAt)
+
       //Sorted by number of copyCount
-      const sortedPopularSeed = [...seedDataList].sort((a, b) => b.copyCount - a.copyCount);
+      const sortedPopularSeedList = [...seedDataList].sort((a, b) => b.copyCount - a.copyCount);
 
       //Filtered by type: Huge
       const hugeSeedList = seedDataList.filter(seed => seed.type === "Huge");
@@ -157,9 +205,10 @@ function HomeComponent() {
 
       //Filtered by type: Basic
       const basicSeedList = seedDataList.filter(seed => seed.type === "Basic");
-
+      
       setSeedData(seedDataList);
-      setPopularSeed(sortedPopularSeed);
+      setNewSeed(sortedNewSeedList)
+      setPopularSeed(sortedPopularSeedList);
       setHugeSeed(hugeSeedList);
       setLargeSeed(largeSeedList)
       setMediumSeed(mediumSeedList)
@@ -207,6 +256,39 @@ function HomeComponent() {
           <span>Add Map</span>
         </a>
       </div>
+
+      {/* NEW SEED */}
+      <section id="new-seed">
+        <div className='section-title'>
+          <h2>Newly Added Seed</h2>
+          <hr></hr>
+        </div>
+        <div className='section-content'>
+          <div className='left-arrow' onClick={() => handleLeftArrow("new")}><FaAngleLeft /></div>
+
+          <div className='section-data'>
+            {Object.keys(newSeed)
+              .slice(newSeedStartIndex, newSeedStartIndex + itemsPerPage)
+              .map(key => (
+              <>
+                <div key={key} className='data-container'>
+                  <div className='time-tag'>{durationText(newSeed[key].createdAt)}</div>
+                  <img src={newSeed[key].imageBase64} onClick={() => copyToClipboard(newSeed[key])} 
+                        style={{height: 380, width: 300}} alt={newSeed[key].seed}></img>
+                  <div className='stats-container'>
+                    <span><FaCopy /></span>
+                    <span>{newSeed[key].copyCount}</span>
+                  </div>
+                </div>
+              </>
+            ))}
+          </div>
+
+          <div className='right-arrow' onClick={() => handleRightArrow("new")}><FaAngleRight /></div>
+        </div>
+      </section>
+
+      {/* POPULAR SEED */}
       <section id="popular-seed">
         <div className='section-title'>
           <h2>Popular Seed</h2>

@@ -48,10 +48,15 @@ form {
 .left-content,
 .right-content {
     flex: 1 0 100px;
+    height: 525px;
 }
 
 .seed-container {
     margin: 40px 0px 0px 20px;
+}
+
+.seed-container div:nth-child(1n){
+    margin-bottom: 10px;
 }
 
 .seed-container label{
@@ -60,7 +65,11 @@ form {
 }
 
 .seed-container div:nth-child(2n){
-    margin-bottom: 50px;
+    margin-bottom: 20px;
+}
+
+.seed-container div:last-child{
+    margin-top: 153px;
 }
 
 .content-body h1,
@@ -139,9 +148,9 @@ select option:not(:first-child) {
 }
 
 .right-content img{
-    margin: 50px 0px 29px 20px;
-    height: 210px;
-    width: 400px;
+    margin: 50px 0px 29px 85px;
+    height: 300px;
+    width: auto;
 }
 
 .upload-input{
