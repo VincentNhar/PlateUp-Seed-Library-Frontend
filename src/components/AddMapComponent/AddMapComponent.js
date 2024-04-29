@@ -88,7 +88,12 @@ function AddMapComponent() {
     <>
     <header>
         <nav>
-            <a href="/"><h1>Vincent's PlateUp Seed Library</h1></a>
+            <a href="/">
+              <h1>
+                <span>PlateUp Seed Library </span> 
+                <span>created by Vincent Nhar</span>
+              </h1>
+            </a>
         </nav>
     </header>
     <main className='addmap-main'>

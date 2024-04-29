@@ -190,7 +190,7 @@ function HomeComponent() {
 
       //Sorted by date of creation
       const newSeedList = convertDate(seedDataList)
-      const sortedNewSeedList = [...newSeedList].sort((a,b) => a.createdAt + b.createdAt)
+      const sortedNewSeedList = [...newSeedList].sort((a,b) => b.createdAt - a.createdAt)
 
       //Sorted by number of copyCount
       const sortedPopularSeedList = [...seedDataList].sort((a, b) => b.copyCount - a.copyCount);

@@ -1,7 +1,5 @@
 li a,
-.section-title,
-.add-button-container,
-.add-button-container a > :nth-child(1){
+.section-title{
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: #FFFFFF;
     font: italic small-caps bold 16px/2 cursive;
@@ -127,7 +125,7 @@ hr{
 
 .add-button-container{
     position: absolute;
-    top: -50px;
+    top: -25px;
     right: 200px;
 }
 
@@ -154,7 +152,11 @@ hr{
 }
 
 .add-button-container a{
-    color: black;
+    color: #000000;
+}
+
+.add-button-container a span{
+    margin-top: 50px
 }
 
 .stats-container{
