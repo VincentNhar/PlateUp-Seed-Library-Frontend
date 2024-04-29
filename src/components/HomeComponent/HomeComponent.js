@@ -5,7 +5,7 @@ import axios from 'axios';
 
 function HomeComponent() {
 
-  const [URL, setURL] = useState('http://localhost:5000')
+  const [URL, setURL] = useState('https://plateup-seed-library-backend.onrender.com')
 
   const [seedData, setSeedData] = useState([]);
   const [newSeed, setNewSeed] = useState([]);

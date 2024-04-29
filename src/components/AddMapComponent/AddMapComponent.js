@@ -4,7 +4,7 @@ import axios from 'axios';
 
 function AddMapComponent() {
 
-  const [URL, setURL] = useState('http://localhost:5000')
+  const [URL, setURL] = useState('https://plateup-seed-library-backend.onrender.com')
 
   const [selectedValue, setSelectedValue] = useState("");
   const [previewImage, setPreviewImage] = useState(null);
