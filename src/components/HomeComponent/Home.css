@@ -27,13 +27,17 @@ aside {
 }
 
 .section-title{
-    width: 200px;
+    width: 300px;
 }
 
 hr{
     margin-top: -15px;
     height: 2px;
     background-color: black;
+}
+
+.section-content{
+    margin-left: -60px;
 }
 
 .section-content,
@@ -66,13 +70,24 @@ hr{
     position: absolute;
     top:30px;
     left:30px;
-    background-color: #FFFF00;
     height: 40px;
     width: 100px;
-    text-align: center;
     font-weight: bold;
-    font-size: x-large;
     line-height: 37px;
+    text-align: center;
+    background-color: #FFFF00;
+    font-size: x-large;
+}
+.time-tag{
+    position: absolute;
+    background-color: #FFFF00;
+    top:30px;
+    left:30px;
+    height: 40px;
+    line-height: 37px;
+    font-size: 10;
+    font-weight: bold;
+    padding: 0px 5% 0px;
 }
 
 
@@ -122,5 +137,3 @@ hr{
     vertical-align: middle;
     font-size: 25px;
 }
-
-
