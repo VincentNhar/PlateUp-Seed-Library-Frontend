@@ -43,7 +43,7 @@ header h1 {
 }
 
 .addmap-main {
-    margin: 40px 25% 0px;
+    margin: 100px 25% 0px;
 }
 
 .content-header {
@@ -131,9 +131,9 @@ select {
 display: none;
 }
 
-input ,
+input,
 select,
-option ,
+option,
 input::placeholder{
     font-weight: bolder;
     font-size: large;
@@ -205,4 +205,48 @@ select option:not(:first-child) {
 /* Hide the default file input */
 input[type='file'] {
     display: none;
+}
+
+.alertbox-container{
+    position: relative;
+}
+
+.message-container{
+    position: absolute;
+    display: flex;
+    padding: 5px 15px 5px 0px;
+    top:20px;
+    margin: 0px auto;
+    border-radius: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.success-box{
+    border: 1px solid #b0cca5;
+    background-color: #d9edd1;
+    color: #5a7052;
+    line-height: 33px;
+}
+
+.error-box{
+    border: 1px solid #bd8181;
+    background-color: #ecc8c5;
+    color: #b32f2d;
+    line-height: 30px;
+}
+
+.alert-icon{
+    font-size: xx-large;
+    margin: 0px 30px;
+}
+
+.message-container div:last-child {
+    justify-content: center;
+    text-align: center;
+    margin-right: 20px;
+}
+
+.alert-type{
+    font-weight: bold;
 }

@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import { FaCheck, FaTimesCircle } from "react-icons/fa";
 import './AddMapComponent.css';
 import axios from 'axios';
 
 function AddMapComponent() {
 
   const [URL, setURL] = useState('https://plateup-seed-library-backend.onrender.com')
+  const [showAlertBox, setShowAlertBox] = useState(false);
+  const [alertStatus, setAlertStatus] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
 
   const [selectedValue, setSelectedValue] = useState("");
   const [previewImage, setPreviewImage] = useState(null);
@@ -15,6 +19,41 @@ function AddMapComponent() {
       seed:'',
       type:''
   })
+
+  const alertBox = (type, message) => {
+    switch (type){
+      case 'success':
+        return (
+          <>
+            <div className='message-container success-box'>
+              <div className='alert-icon'>
+                  <FaCheck />
+              </div>
+              <div>
+                  <span className='alert-type'>Success: </span>
+                  <span className='message-text'>{message}</span>
+              </div>
+            </div>
+          </>
+        );
+      case 'error':
+        return (
+          <>
+            <div className='message-container error-box'>
+              <div>
+                <div className='alert-icon'>
+                  <FaTimesCircle />
+                </div>
+              </div>
+              <div>
+                  <span className='alert-type'>Error: </span>
+                  <span className='message-text'>{message}</span>
+              </div>
+            </div>
+          </>
+        );
+    }
+  }
 
   const handleChange = (event) => {
       setSelectedValue(event.target.value);
@@ -34,24 +73,39 @@ function AddMapComponent() {
     try {
 
         console.log("before submit: ",formData);
-        await axios.post(`${URL}/map/add`, formData);
+        const response = await axios.post(`${URL}/map/add`, formData);
 
+        if (response.status === 201){
+          setAlertStatus("success")
+          setAlertMessage("New seed has been successfully added")
+        }
+
+        setShowAlertBox(true);
+
+        console.log("HTTP Response:", response)
         
         // Reset form data after successful submission
         setFormData({
           imageBase64: '',
           seed: '',
           type: ''
-      });
-      
-      window.location.reload()
+        });
 
+        // Clear input values
+        document.getElementById('seedInput').value = '';
+        document.getElementById('typeInput').value = '';
+      
         
       setPreviewImage(null);
       setSelectedFileName('No image selected');
 
     } catch (error) {
-        console.error('Error submitting form:', error);
+        console.error('Error submitting form:', error)
+        if (error.response.data.code === 11000){
+          setAlertStatus("error")
+          setAlertMessage(`Map with seed "${error.response.data.keyValue.seed}" already exists`)
+          setShowAlertBox(true);
+        }
     }
   };
   
@@ -95,6 +149,11 @@ function AddMapComponent() {
               </h1>
             </a>
         </nav>
+
+        <div className='alertbox-container'>
+        {showAlertBox && alertBox(alertStatus, alertMessage)}
+        </div>
+
     </header>
     <main className='addmap-main'>
         <div className='content-header'>
@@ -106,17 +165,17 @@ function AddMapComponent() {
               <h3>Please enter the seed's information</h3>
               <div className='seed-container'>
                 <div>
-                  <label htmlFor="seed-textfield">Seed:</label>
+                  <label htmlFor="seedInput">Seed:</label>
                 </div>
                 <div>
-                  <input id="seed-textfield" type='text' name='seed' onChange={handleChange} 
+                  <input id="seedInput" type='text' name='seed' onChange={handleChange} 
                          placeholder='A1B2C3D4' maxLength={8} required/>
                 </div>
                 <div>
-                  <label htmlFor="type-textfield">Type:</label>
+                  <label htmlFor="typeInput">Type:</label>
                 </div>
                 <div>
-                  <select name='type' onChange={handleChange}
+                  <select id="typeInput" name='type' onChange={handleChange}
                           className={`custom-select ${selectedValue ? '' : 'placeholder-text'}`}
                           defaultValue="">
                     <option value="" disabled>Select Type (w x h)</option>
