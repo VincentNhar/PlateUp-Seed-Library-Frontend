@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaCheck, FaTimesCircle } from "react-icons/fa";
+import { PiWarning } from "react-icons/pi";
 import './AddMapComponent.css';
 import axios from 'axios';
 
@@ -31,6 +32,22 @@ function AddMapComponent() {
               </div>
               <div>
                   <span className='alert-type'>Success: </span>
+                  <span className='message-text'>{message}</span>
+              </div>
+            </div>
+          </>
+        );
+      case 'warning':
+        return (
+          <>
+            <div className='message-container warning-box'>
+              <div>
+                <div className='alert-icon'>
+                  <PiWarning />
+                </div>
+              </div>
+              <div>
+                  <span className='alert-type'>Warning: </span>
                   <span className='message-text'>{message}</span>
               </div>
             </div>
@@ -70,6 +87,7 @@ function AddMapComponent() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setShowAlertBox(false);
     try {
 
         console.log("before submit: ",formData);
@@ -110,8 +128,11 @@ function AddMapComponent() {
   };
   
   const handleImgUpload = (event) => {
+      setShowAlertBox(false);
+      
       const file = event.target.files[0];
-      if (file) {
+      
+      if (file.type.startsWith('image/')) {
         const reader = new FileReader();
         reader.onloadend = () => {
           setPreviewImage(reader.result);
@@ -124,6 +145,10 @@ function AddMapComponent() {
         };
         reader.readAsDataURL(file);
         setSelectedFileName(file.name);
+      }else{
+        setAlertStatus("warning")
+        setAlertMessage("Please select an image file.")
+        setShowAlertBox(true)
       }
   };
 
@@ -200,7 +225,7 @@ function AddMapComponent() {
                 <div className='upload-input'>
                   <label htmlFor="upload-image" className="custom-file-upload">Upload Image </label>
                   <label className='file-name'>{truncateMiddle(selectedFileName)}</label>
-                  <input type='file' id='upload-image' accept='image/*' onChange={handleImgUpload}></input>
+                  <input type='file' id='upload-image' accept='image/jpeg, image/png' onChange={handleImgUpload}></input>
                 </div>
               </div>
             </div>

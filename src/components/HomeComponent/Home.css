@@ -1,8 +1,33 @@
 li a,
 .section-title{
-        font-family: "Varela Round", sans-serif;
-        font-weight: 700;
-        font-style: normal;
+    font-family: "Varela Round", sans-serif;
+    color: white;
+
+    /* Creates a border for a text */
+    text-shadow: 1px 1px 0 #000,
+    -1px 1px 0 #000,
+    1px -1px 0 #000,
+    -1px -1px 0 #000,
+    0px 1px 0 #000,
+    0px -1px 0 #000,
+    -1px 0px 0 #000,
+    1px 0px 0 #000,
+    2px 2px 0 #000,
+    -2px 2px 0 #000,
+    2px -2px 0 #000,
+    -2px -2px 0 #000,
+    0px 2px 0 #000,
+    0px -2px 0 #000,
+    -2px 0px 0 #000,
+    2px 0px 0 #000,
+    1px 2px 0 #000,
+    -1px 2px 0 #000,
+    1px -2px 0 #000,
+    -1px -2px 0 #000,
+    2px 1px 0 #000,
+    -2px 1px 0 #000,
+    2px -1px 0 #000,
+    -2px -1px 0 #000;
 }
 
 nav a h1 {
@@ -40,7 +65,7 @@ ul li{
 }
 
 ul li a{
-    color: black;
+    padding: 15px;
     font-weight: bold;
     font-size: 160%;
 }
@@ -56,7 +81,7 @@ aside {
 }
 
 .section-title{
-    width: 300px;
+    width: 325px;
     font-size: 120%;
 }
 
@@ -66,8 +91,9 @@ aside {
 
 hr{
     margin-top: -5px;
+    border: 2px solid black;
     height: 2px;
-    background-color: black;
+    background-color: rgb(255, 255, 255);
 }
 
 .section-content{
@@ -121,7 +147,7 @@ hr{
 .time-tag{
     top:30px;
     position: absolute;
-    background-color: #FFFF00;
+    background-color: #FFAA00;
     font-weight: bold;
 }
 
@@ -133,6 +159,32 @@ hr{
 
 .add-button-container a > *:nth-child(n) {
     margin: 5px;
+    color: white;
+    text-shadow: 
+        1px 1px 0 #000,
+        -1px 1px 0 #000,
+        1px -1px 0 #000,
+        -1px -1px 0 #000,
+        0px 1px 0 #000,
+        0px -1px 0 #000,
+        -1px 0px 0 #000,
+        1px 0px 0 #000,
+        2px 2px 0 #000,
+        -2px 2px 0 #000,
+        2px -2px 0 #000,
+        -2px -2px 0 #000,
+        0px 2px 0 #000,
+        0px -2px 0 #000,
+        -2px 0px 0 #000,
+        2px 0px 0 #000,
+        1px 2px 0 #000,
+        -1px 2px 0 #000,
+        1px -2px 0 #000,
+        -1px -2px 0 #000,
+        2px 1px 0 #000,
+        -2px 1px 0 #000,
+        2px -1px 0 #000,
+        -2px -1px 0 #000;
 }
 
 /* add button logo */
@@ -151,18 +203,14 @@ hr{
     font-style: normal;
 }
 
-.add-button-container a:hover{
+.add-button-container a:hover span{
     color: #FFAA00
-}
-
-.add-button-container a{
-    color: #000000;
 }
 
 .stats-container{
     position: absolute;
     bottom: -20px;
-    left: 175px;
+    left: 160px;
 }
 
 .stats-container span{
@@ -188,6 +236,6 @@ hr{
     line-height: 600px;
 }
 
-a:hover{
+ul li a:hover {
     color:#FFAA00
 }

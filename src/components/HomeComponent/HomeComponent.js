@@ -262,7 +262,7 @@ function HomeComponent() {
     <main className='home-main'>
       <div className='add-button-container'>
         <a href="/add">
-          <span><FaPlus /></span>
+          <span><FaPlus style={{ stroke: "black", strokeWidth: "25"}}/></span>
           <span>Add Map</span>
         </a>
       </div>

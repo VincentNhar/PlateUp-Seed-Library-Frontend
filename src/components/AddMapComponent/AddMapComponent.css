@@ -236,6 +236,13 @@ input[type='file'] {
     line-height: 30px;
 }
 
+.warning-box{
+    border: 1px solid #d8cd85;
+    background-color: #fff2cf;
+    color: #836a27;
+    line-height: 30px;
+}
+
 .alert-icon{
     font-size: xx-large;
     margin: 0px 30px;
