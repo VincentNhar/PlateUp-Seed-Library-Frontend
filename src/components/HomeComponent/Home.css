@@ -1,8 +1,8 @@
 li a,
 .section-title{
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: #FFFFFF;
-    font: italic small-caps bold 16px/2 cursive;
+        font-family: "Varela Round", sans-serif;
+        font-weight: 700;
+        font-style: normal;
 }
 
 nav a h1 {
@@ -127,7 +127,7 @@ hr{
 
 .add-button-container{
     position: absolute;
-    top: -25px;
+    top: -30px;
     right: 200px;
 }
 
@@ -137,16 +137,18 @@ hr{
 
 /* add button logo */
 .add-button-container a > :nth-child(1) {
-    font-size: 35px;
+    font-size: 30px;
 }
 
 /* add button word */
 .add-button-container a > :nth-child(2) {
-    margin-top: -25px;
+    margin-top: -15px;
     display: inline-block; /* Ensure the height is respected */
     vertical-align: middle; /* Align the text vertically */
     font-size: 25px;
+    font-family: "Varela Round", sans-serif;
     font-weight: 700;
+    font-style: normal;
 }
 
 .add-button-container a:hover{
@@ -155,10 +157,6 @@ hr{
 
 .add-button-container a{
     color: #000000;
-}
-
-.add-button-container a span{
-    margin-top: 50px
 }
 
 .stats-container{
