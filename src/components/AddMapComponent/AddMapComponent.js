@@ -7,7 +7,10 @@ import axios from 'axios';
 function AddMapComponent() {
 
   const [URL, setURL] = useState('https://plateup-seed-library-backend.onrender.com')
+  
   const [showAlertBox, setShowAlertBox] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [alertList, setAlertList] = useState([]);
   const [alertStatus, setAlertStatus] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
 
@@ -20,6 +23,11 @@ function AddMapComponent() {
       seed:'',
       type:''
   })
+
+  const addNewAlert = (status, message) => {
+    const newAlert = { status: status, message: message };
+    setAlertList(prevAlertList => [...prevAlertList, newAlert]);
+  };
 
   const alertBox = (type, message) => {
     switch (type){
@@ -75,8 +83,6 @@ function AddMapComponent() {
   const handleChange = (event) => {
       setSelectedValue(event.target.value);
 
-      console.log(event.target)
-
       const { name, value } = event.target;
 
       setFormData({
@@ -88,14 +94,13 @@ function AddMapComponent() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setShowAlertBox(false);
+    setAlertList([]);
     try {
 
-        console.log("before submit: ",formData);
         const response = await axios.post(`${URL}/map/add`, formData);
 
         if (response.status === 201){
-          setAlertStatus("success")
-          setAlertMessage("New seed has been successfully added")
+          addNewAlert("success", "New seed has been successfully added")
         }
 
         setShowAlertBox(true);
@@ -112,16 +117,29 @@ function AddMapComponent() {
         // Clear input values
         document.getElementById('seedInput').value = '';
         document.getElementById('typeInput').value = '';
-      
-        
-      setPreviewImage(null);
-      setSelectedFileName('No image selected');
+              
+        setPreviewImage(null);
+        setSelectedFileName('No image selected');
 
     } catch (error) {
         console.error('Error submitting form:', error)
         if (error.response.data.code === 11000){
-          setAlertStatus("error")
-          setAlertMessage(`Map with seed "${error.response.data.keyValue.seed}" already exists`)
+          addNewAlert("error",`Map with seed "${error.response.data.keyValue.seed}" already exists`)
+          setShowAlertBox(true);
+        }
+        if (error.response.data.errors){
+          const attrError = error.response.data.errors
+          for (const item in attrError){
+
+            if (item === 'imageBase64'){
+              addNewAlert("error", "image is required")
+            }else{
+              addNewAlert("error", `${item} is required`)
+            }
+            console.log(item)
+            //addNewAlert("warning",`item.key`)
+          }
+          setShowError(true)
           setShowAlertBox(true);
         }
     }
@@ -146,8 +164,7 @@ function AddMapComponent() {
         reader.readAsDataURL(file);
         setSelectedFileName(file.name);
       }else{
-        setAlertStatus("warning")
-        setAlertMessage("Please select an image file.")
+        addNewAlert("warning", "Only image files are allowed.")
         setShowAlertBox(true)
       }
   };
@@ -176,9 +193,11 @@ function AddMapComponent() {
         </nav>
 
         <div className='alertbox-container'>
-        {showAlertBox && alertBox(alertStatus, alertMessage)}
+          {alertList && alertList.map(item => (
+            showAlertBox && alertBox(item.status, item.message)
+          ))}
         </div>
-
+        
     </header>
     <main className='addmap-main'>
         <div className='content-header'>
@@ -194,14 +213,14 @@ function AddMapComponent() {
                 </div>
                 <div>
                   <input id="seedInput" type='text' name='seed' onChange={handleChange} 
-                         placeholder='A1B2C3D4' maxLength={8} required/>
+                         placeholder='A1B2C3D4' maxLength={8} className={showError && formData.seed === "" ? 'error-input' : ''}/>
                 </div>
                 <div>
                   <label htmlFor="typeInput">Type:</label>
                 </div>
                 <div>
                   <select id="typeInput" name='type' onChange={handleChange}
-                          className={`custom-select ${selectedValue ? '' : 'placeholder-text'}`}
+                          className={`custom-select ${selectedValue ? '' : 'placeholder-text'} ${showError && formData.type === "" ? 'error-input' : ''}`}
                           defaultValue="">
                     <option value="" disabled>Select Type (w x h)</option>
                     <option value="Huge">Huge (16 x 12)</option>
@@ -210,7 +229,7 @@ function AddMapComponent() {
                     <option value="Basic">Basic (10 x 7)</option>
                   </select>
                 </div>
-                <div>
+                <div className='submit-button-container'>
                   <input className='submit-button' name='submitButton' type='submit' value='Submit' />
                 </div>
               </div>
@@ -220,7 +239,7 @@ function AddMapComponent() {
               <h3>Please upload the seed's image</h3>
               <div>
                 <div>
-                  {previewImage ? <img src={previewImage} alt="Preview" /> : <img></img>}
+                  {previewImage ? <img src={previewImage} alt="Preview" /> : <img />}
                 </div>
                 <div className='upload-input'>
                   <label htmlFor="upload-image" className="custom-file-upload">Upload Image </label>

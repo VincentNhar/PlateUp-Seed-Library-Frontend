@@ -92,8 +92,17 @@ form {
     margin-bottom: 20px;
 }
 
-.seed-container div:last-child{
-    margin-top: 153px;
+.submit-button-container{
+    position: relative;
+    top: 130px;
+}
+
+.error-container{
+    color: red;
+    margin: 5px 0px 0px 50px;
+}
+.error-input{
+    border: 1px solid red;
 }
 
 .content-body h1,
@@ -179,7 +188,7 @@ select option:not(:first-child) {
 
 .upload-input{
     position: relative;
-    margin-left: 18px;
+    left: 1em;
 }
 
 .right-content input{
@@ -212,14 +221,12 @@ input[type='file'] {
 }
 
 .message-container{
-    position: absolute;
+    position: relative;
     display: flex;
     padding: 5px 15px 5px 0px;
     top:20px;
-    margin: 0px auto;
     border-radius: 5px;
-    left: 50%;
-    transform: translateX(-50%);
+    width: fit-content;
 }
 
 .success-box{
@@ -256,4 +263,8 @@ input[type='file'] {
 
 .alert-type{
     font-weight: bold;
+}
+
+.alertbox-container > * {
+    margin: 5px auto;
 }
